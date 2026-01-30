@@ -8,7 +8,7 @@ The site showcases my background as an **ETRM Business & Data Analyst** and **Az
 
 ## 🌐 Live Website
 
-🔗 https://red-sky-09489ab00.6.azurestaticapps.net/#projects
+🔗 https://red-sky-09489ab00.6.azurestaticapps.net
 
 ---
 
