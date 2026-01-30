@@ -13,7 +13,7 @@ body {
   line-height: 1.7;
 }
 
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 nav {
   display: flex;
   justify-content: space-between;
@@ -29,7 +29,6 @@ nav {
 .logo {
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: 1px;
 }
 
 nav ul {
@@ -42,26 +41,29 @@ nav a {
   color: #cfcfcf;
   text-decoration: none;
   font-size: 14px;
-  transition: color 0.3s;
 }
 
 nav a:hover {
   color: #ffffff;
 }
 
-/* ================= HERO ================= */
+/* HERO */
 .hero {
-  min-height: 90vh;
+  min-height: 100vh;
   padding: 0 8%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.hero-content {
+  max-width: 65%;
 }
 
 .hero h1 {
   font-size: 56px;
   font-weight: 700;
-  margin-bottom: 10px;
 }
 
 .hero span {
@@ -72,13 +74,13 @@ nav a:hover {
   font-size: 16px;
   color: #b5b5b5;
   max-width: 600px;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .btn {
   margin-top: 30px;
-  width: fit-content;
-  padding: 14px 30px;
+  display: inline-block;
+  padding: 14px 34px;
   border-radius: 50px;
   background: linear-gradient(135deg, #7c7cff, #9f9fff);
   color: #0b0b0d;
@@ -89,10 +91,47 @@ nav a:hover {
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(124, 124, 255, 0.3);
+  box-shadow: 0 12px 30px rgba(124, 124, 255, 0.35);
 }
 
-/* ================= SECTIONS ================= */
+/* HERO IMAGE */
+.hero-image {
+  position: relative;
+  width: 60%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: right;
+}
+
+
+.hero-image img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+  border-radius: 28px;
+  object-fit: cover;
+  z-index: 1;
+}
+
+
+
+.hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+  to bottom,
+  rgba(11, 11, 13, 0) 50%,
+  rgba(11, 11, 13, 0.25) 70%,
+  rgba(11, 11, 13, 0.45) 80%,
+  rgba(11, 11, 13, 0.65) 90%
+);
+  z-index: 2;
+}
+
+/* SECTIONS */
 section {
   padding: 90px 8%;
 }
@@ -102,14 +141,13 @@ section h2 {
   margin-bottom: 25px;
 }
 
-/* ================= ABOUT ================= */
+/* ABOUT */
 #about p {
   max-width: 850px;
-  font-size: 16px;
   color: #c8c8c8;
 }
 
-/* ================= PROJECTS ================= */
+/* PROJECTS */
 #projects {
   background: #0f0f12;
 }
@@ -122,27 +160,16 @@ section h2 {
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.project-card h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.project-card p {
-  color: #bcbcbc;
-  font-size: 15px;
-}
-
 .project-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
-/* ================= SKILLS ================= */
+/* SKILLS */
 .skills {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 20px;
 }
 
 .skills span {
@@ -152,12 +179,7 @@ section h2 {
   font-size: 14px;
   color: #e5e5e5;
   border: 1px solid #222;
-  cursor: default;
-  transition: 
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    background 0.25s ease,
-    color 0.25s ease;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s, color 0.25s;
 }
 
 .skills span:hover {
@@ -167,34 +189,33 @@ section h2 {
   box-shadow: 0 10px 30px rgba(124, 124, 255, 0.35);
 }
 
-
-/* ================= CONTACT ================= */
+/* CONTACT */
 #contact p {
-  font-size: 15px;
-  color: #cfcfcf;
   margin-bottom: 8px;
+  color: #cfcfcf;
 }
 
-/* ================= FOOTER ================= */
+/* FOOTER */
 footer {
-  padding: 30px;
   text-align: center;
-  background: #0b0b0d;
+  padding: 30px;
   color: #777;
-  font-size: 14px;
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 40px;
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
   }
 
-  nav ul {
-    gap: 18px;
+  .hero-content,
+  .hero-image {
+    max-width: 100%;
   }
 
-  section {
-    padding: 70px 6%;
+  .hero-image img {
+    max-width: 300px;
+    margin-top: 40px;
   }
 }
