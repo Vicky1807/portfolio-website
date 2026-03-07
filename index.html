@@ -35,7 +35,7 @@
     </section>
 
     <!-- ABOUT -->
-    <section id="about">
+    <section id="about" class="reveal">
       <h2>About Me</h2>
       <p>
         I am an Azure Certified Data Scientist with 1+ year of hands-on
@@ -46,10 +46,10 @@
     </section>
 
     <!-- PROJECTS -->
-    <section id="projects">
+    <section id="projects" class="reveal">
       <h2>Projects</h2>
 
-      <div class="project-card">
+      <div class="project-card reveal">
         <h3>Anomaly Detection API</h3>
         <p>
           Built and deployed an ML anomaly detection model as a REST API using
@@ -57,7 +57,7 @@
         </p>
       </div>
 
-      <div class="project-card">
+      <div class="project-card reveal">
         <h3>Diabetes Classification (MLOps)</h3>
         <p>
           Built an end-to-end machine learning pipeline for diabetes
@@ -70,21 +70,21 @@
     </section>
 
     <!-- SKILLS -->
-    <section id="skills">
+    <section id="skills" class="reveal">
       <h2>Skills</h2>
       <div class="skills">
-        <span>Python</span>
-        <span>Machine Learning</span>
-        <span>Azure ML</span>
-        <span>FastAPI</span>
-        <span>SQL</span>
-        <span>Power BI</span>
-        <span>Git & GitHub</span>
+        <span class="reveal">Python</span>
+        <span class="reveal">Machine Learning</span>
+        <span class="reveal">Azure ML</span>
+        <span class="reveal">FastAPI</span>
+        <span class="reveal">SQL</span>
+        <span class="reveal">Power BI</span>
+        <span class="reveal">Git & GitHub</span>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact">
+    <section id="contact" class="reveal">
       <h2>Contact</h2>
       <p>Email: vv80507@gmail.com</p>
       <p>LinkedIn: linkedin.com/in/vignesh-v-65883417a</p>
@@ -94,5 +94,27 @@
     <footer>
       <p>© 2026 Vignesh</p>
     </footer>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("show");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.15,
+          rootMargin: "0px 0px -40px 0px",
+        }
+      );
+
+      document.querySelectorAll(".reveal").forEach((element, index) => {
+        element.style.transitionDelay = `${Math.min(index * 45, 240)}ms`;
+        observer.observe(element);
+      });
+    </script>
   </body>
 </html>
