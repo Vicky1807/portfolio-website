@@ -3,14 +3,482 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio of Vignesh</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+    <title>Vignesh V — Data Scientist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+      :root {
+        --bg:       #0a0a0a;
+        --surface:  #111111;
+        --border:   #1f1f1f;
+        --accent:   #c8a96e;
+        --text:     #a8a8a8;
+        --text-hi:  #e8e8e8;
+        --white:    #f5f5f5;
+        --serif:    'DM Serif Display', serif;
+        --sans:     'Inter', sans-serif;
+        --mono:     'Courier New', monospace;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-weight: 300;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.4rem 6%;
+        background: rgba(10,10,10,0.92);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .logo {
+        font-family: var(--serif);
+        font-size: 1.2rem;
+        color: var(--white);
+        font-weight: 400;
+      }
+
+      nav ul { list-style: none; display: flex; gap: 2.5rem; }
+
+      nav ul a {
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: var(--text);
+        text-decoration: none;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+      }
+
+      nav ul a:hover { color: var(--white); }
+
+      /* ── HERO ── */
+      .hero {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 0.9fr;
+        overflow: hidden;
+      }
+
+      .hero-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 10rem 6% 8rem 10%;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-eyebrow {
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1.6rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        animation: fadeUp 1s ease both;
+      }
+
+      .hero-eyebrow::before {
+        content: '';
+        width: 2rem; height: 1px;
+        background: var(--accent);
+      }
+
+      .hero-left h1 {
+        font-family: var(--serif);
+        font-size: clamp(3rem, 5vw, 5rem);
+        font-weight: 400;
+        color: var(--white);
+        line-height: 1.06;
+        margin-bottom: 1.8rem;
+        animation: fadeUp 1s 0.1s ease both;
+      }
+
+      .hero-left h1 em {
+        color: var(--accent);
+        font-style: italic;
+      }
+
+      .hero-desc {
+        font-size: 0.88rem;
+        color: var(--text);
+        max-width: 340px;
+        line-height: 1.85;
+        margin-bottom: 2.8rem;
+        animation: fadeUp 1s 0.2s ease both;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        animation: fadeUp 1s 0.3s ease both;
+      }
+
+      .btn-primary {
+        padding: 0.85rem 2rem;
+        background: var(--accent);
+        color: #0a0a0a;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+
+      .btn-primary:hover { opacity: 0.82; }
+
+      .btn-ghost {
+        padding: 0.85rem 2rem;
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: border-color 0.2s, color 0.2s;
+      }
+
+      .btn-ghost:hover { border-color: var(--text); color: var(--white); }
+
+      /* Right — full-bleed portrait, NO circle */
+      .hero-right {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-right img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        display: block;
+        filter: grayscale(10%) contrast(1.04);
+        animation: imgReveal 1.3s 0.15s cubic-bezier(0.77,0,0.18,1) both;
+      }
+
+      /* Blend left edge into background */
+      .hero-right::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, var(--bg) 0%, rgba(10,10,10,0.25) 35%, transparent 65%);
+        z-index: 1;
+      }
+
+      /* Bottom fade */
+      .hero-right::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 25%;
+        background: linear-gradient(to top, var(--bg), transparent);
+        z-index: 1;
+      }
+
+      /* ── DIVIDER ── */
+      .divider { width: 100%; height: 1px; background: var(--border); }
+
+      /* ── SECTIONS ── */
+      .section {
+        padding: 7rem 6%;
+        max-width: 1160px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        gap: 1.2rem;
+        margin-bottom: 4rem;
+      }
+
+      .section-num {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--accent);
+        letter-spacing: 0.08em;
+      }
+
+      .section-header h2 {
+        font-family: var(--serif);
+        font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+        font-weight: 400;
+        color: var(--white);
+      }
+
+      .section-header::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+        margin-left: 1rem;
+      }
+
+      /* ── ABOUT ── */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 5rem;
+        align-items: start;
+      }
+
+      .about-text p {
+        font-size: 0.93rem;
+        line-height: 1.9;
+        color: var(--text);
+        margin-bottom: 1.4rem;
+      }
+
+      .about-text p strong { color: var(--text-hi); font-weight: 500; }
+
+      .cert-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.9rem;
+        border: 1px solid rgba(200,169,110,0.3);
+        color: var(--accent);
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-top: 0.5rem;
+      }
+
+      .about-meta { display: flex; flex-direction: column; }
+
+      .meta-item {
+        padding: 1.2rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .meta-item:first-child { border-top: 1px solid var(--border); }
+
+      .meta-label {
+        font-size: 0.66rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.3rem;
+      }
+
+      .meta-value { font-size: 0.88rem; color: var(--text-hi); }
+
+      /* ── PROJECTS ── */
+      .project-item {
+        display: grid;
+        grid-template-columns: 60px 1fr auto;
+        gap: 2rem;
+        padding: 2.5rem 0;
+        border-bottom: 1px solid var(--border);
+        transition: padding-left 0.25s;
+      }
+
+      .project-item:first-child { border-top: 1px solid var(--border); }
+      .project-item:hover { padding-left: 0.8rem; }
+
+      .project-index {
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        color: #333;
+        padding-top: 0.25rem;
+      }
+
+      .project-body h3 {
+        font-size: 1.02rem;
+        font-weight: 500;
+        color: var(--white);
+        margin-bottom: 0.6rem;
+      }
+
+      .project-body p {
+        font-size: 0.86rem;
+        color: var(--text);
+        line-height: 1.78;
+        max-width: 540px;
+      }
+
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1rem;
+      }
+
+      .project-tags span {
+        font-size: 0.66rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 0.2rem 0.55rem;
+      }
+
+      .project-link-btn {
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding-top: 0.25rem;
+        white-space: nowrap;
+        transition: opacity 0.2s;
+      }
+
+      .project-link-btn:hover { opacity: 0.65; }
+
+      /* ── SKILLS ── */
+      .skills-layout {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border: 1px solid var(--border);
+      }
+
+      .skill-group {
+        padding: 2rem 2rem 2.5rem;
+        border-right: 1px solid var(--border);
+      }
+
+      .skill-group:last-child { border-right: none; }
+
+      .skill-group-title {
+        font-size: 0.66rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1.4rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .skill-group ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+
+      .skill-group li {
+        font-size: 0.86rem;
+        color: var(--text-hi);
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+      }
+
+      .skill-group li::before {
+        content: '';
+        width: 3px; height: 3px;
+        background: var(--accent);
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      /* ── CONTACT ── */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: start;
+      }
+
+      .contact-intro h3 {
+        font-family: var(--serif);
+        font-size: 2rem;
+        font-weight: 400;
+        color: var(--white);
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      .contact-intro p {
+        font-size: 0.88rem;
+        color: var(--text);
+        line-height: 1.85;
+      }
+
+      .contact-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.3rem 0;
+        border-bottom: 1px solid var(--border);
+        text-decoration: none;
+        transition: padding-left 0.2s;
+      }
+
+      .contact-row:first-child { border-top: 1px solid var(--border); }
+      .contact-row:hover { padding-left: 0.5rem; }
+
+      .contact-row-label {
+        font-size: 0.66rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--text);
+      }
+
+      .contact-row-value {
+        font-size: 0.86rem;
+        color: var(--text-hi);
+        transition: color 0.2s;
+      }
+
+      .contact-row:hover .contact-row-value { color: var(--accent); }
+
+      /* ── FOOTER ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 1.8rem 6%;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        color: #2e2e2e;
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(22px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes imgReveal {
+        from { clip-path: inset(0 100% 0 0); }
+        to   { clip-path: inset(0 0% 0 0); }
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 900px) {
+        .hero { grid-template-columns: 1fr; }
+        .hero-right { height: 65vw; }
+        .hero-left { padding: 8rem 6% 4rem; }
+        .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+        .skills-layout { grid-template-columns: 1fr; }
+        .skill-group { border-right: none; border-bottom: 1px solid var(--border); }
+        .skill-group:last-child { border-bottom: none; }
+        .project-item { grid-template-columns: 50px 1fr; }
+        .project-link-btn { display: none; }
+        nav ul { gap: 1.2rem; }
+      }
+    </style>
+  </head>
   <body>
-    <!-- NAVBAR -->
+
     <nav>
-      <h2 class="logo">Vignesh</h2>
+      <div class="logo">Vignesh</div>
       <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About</a></li>
@@ -22,99 +490,170 @@
 
     <!-- HERO -->
     <section id="home" class="hero">
-      <div class="hero-content">
-        <h1>Hi, I'm <span>Vignesh</span></h1>
-        <p>This page is Vibe coded with help of some Open source LLMs</p>
-        <p>ETRM Business and Data Analyst, Aspiring Data Scientist</p>
-        <a href="#projects" class="btn">View My Work</a>
+      <div class="hero-left">
+        <div class="hero-eyebrow">ETRM Analyst &amp; Aspiring Data Scientist</div>
+        <h1><em>Vignesh</em></h1>
+        <p class="hero-desc">
+          Azure Certified Data Scientist with experience building production ML solutions
+          in enterprise energy trading environments.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a href="#contact" class="btn-ghost">Contact</a>
+        </div>
       </div>
-
-      <div class="hero-image">
-        <img src="images/vignesh.png" alt="Vignesh portrait" />
+      <div class="hero-right">
+        <img src="vignesh.png" alt="Vignesh Venkatesh" />
       </div>
     </section>
+
+    <div class="divider"></div>
 
     <!-- ABOUT -->
-    <section id="about" class="reveal">
-      <h2>About Me</h2>
-      <p>
-        I am an Azure Certified Data Scientist with 1+ year of hands-on
-        experience building and maintaining machine learning–based anomaly
-        detection solutions in an enterprise ETRM (Energy Trading and Risk
-        Management) environment.
-      </p>
-    </section>
+    <div class="section" id="about">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2>About</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I am an <strong>Azure Certified Data Scientist</strong> with 1+ year of hands-on experience
+            building and maintaining machine learning–based anomaly detection solutions in an enterprise
+            ETRM (Energy Trading and Risk Management) environment.
+          </p>
+          <p>
+            I bridge the gap between business requirements and data-driven solutions — translating
+            domain knowledge into reliable, production-grade models and APIs.
+          </p>
+          <div class="cert-tag">✦ Microsoft Azure — Data Scientist Associate</div>
+        </div>
+        <div class="about-meta">
+          <div class="meta-item">
+            <div class="meta-label">Current Role</div>
+            <div class="meta-value">ETRM Business & Data Analyst</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Experience</div>
+            <div class="meta-value">1+ Year</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Domain</div>
+            <div class="meta-value">Energy Trading & Risk Management</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Interests</div>
+            <div class="meta-value">ML, MLOps, Data Science, RAG</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
 
     <!-- PROJECTS -->
-    <section id="projects" class="reveal">
-      <h2>Projects</h2>
-
-      <div class="project-card reveal">
-        <h3>Anomaly Detection API</h3>
-        <p>
-          Built and deployed an ML anomaly detection model as a REST API using
-          Azure App Services and Azure Machine Learning.
-        </p>
+    <div class="section" id="projects">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2>Projects</h2>
       </div>
 
-      <div class="project-card reveal">
-        <h3>Diabetes Classification (MLOps)</h3>
-        <p>
-          Built an end-to-end machine learning pipeline for diabetes
-          classification, including data preprocessing, model training,
-          evaluation, and deployment. Implemented MLOps practices such as
-          versioned models, automated retraining, and monitored predictions to
-          ensure reliability in production.
-        </p>
+      <div class="project-item">
+        <div class="project-index">01 /</div>
+        <div class="project-body">
+          <h3>Anomaly Detection API</h3>
+          <p>Built and deployed an ML anomaly detection model as a REST API using Azure App Services and
+          Azure Machine Learning, running live in a production ETRM environment.</p>
+          <div class="project-tags">
+            <span>Azure ML</span><span>FastAPI</span><span>REST API</span><span>Production</span>
+          </div>
+        </div>
+        <div></div>
       </div>
-    </section>
+
+      <div class="project-item">
+        <div class="project-index">02 /</div>
+        <div class="project-body">
+          <h3>Diabetes Classification — MLOps Pipeline</h3>
+          <p>End-to-end ML pipeline for diabetes classification with data preprocessing, model training,
+          evaluation, and deployment. CI/CD via GitHub Actions, versioned models, automated retraining,
+          and production monitoring.</p>
+          <div class="project-tags">
+            <span>MLOps</span><span>CI/CD</span><span>GitHub Actions</span><span>Python</span>
+          </div>
+        </div>
+        <a href="https://github.com/Vicky1807/github-actions-for-model-training"
+           target="_blank" class="project-link-btn">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="divider"></div>
 
     <!-- SKILLS -->
-    <section id="skills" class="reveal">
-      <h2>Skills</h2>
-      <div class="skills">
-        <span class="reveal">Python</span>
-        <span class="reveal">Machine Learning</span>
-        <span class="reveal">Azure ML</span>
-        <span class="reveal">FastAPI</span>
-        <span class="reveal">SQL</span>
-        <span class="reveal">Power BI</span>
-        <span class="reveal">Git & GitHub</span>
+    <div class="section" id="skills">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2>Skills</h2>
       </div>
-    </section>
+      <div class="skills-layout">
+        <div class="skill-group">
+          <div class="skill-group-title">Languages & Data</div>
+          <ul>
+            <li>Python</li>
+            <li>SQL</li>
+            <li>Apache Spark</li>
+            <li>Apache Hive</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">ML & AI</div>
+          <ul>
+            <li>Machine Learning</li>
+            <li>Azure ML</li>
+            <li>Anomaly Detection</li>
+            <li>RAG (Beginner)</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Tools & Practices</div>
+          <ul>
+            <li>FastAPI</li>
+            <li>Power BI</li>
+            <li>Git & GitHub</li>
+            <li>CI/CD · MLOps</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
 
     <!-- CONTACT -->
-    <section id="contact" class="reveal">
-      <h2>Contact</h2>
-      <p>Email: vv80507@gmail.com</p>
-      <p>LinkedIn: linkedin.com/in/vignesh-v-65883417a</p>
-      <p>GitHub: github.com/Vicky1807</p>
-    </section>
+    <div class="section" id="contact">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2>Contact</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-intro">
+          <h3>Let's work<br>together.</h3>
+          <p>Open to data science roles, ML collaborations, and interesting problems in analytics and AI.</p>
+        </div>
+        <div>
+          <a href="/cdn-cgi/l/email-protection#5c2a2a646c696c6b1c3b313d3530723f3331" class="contact-row">
+            <span class="contact-row-label">Email</span>
+            <span class="contact-row-value"><span class="__cf_email__" data-cfemail="6513135d55505552250208040c094b060a08">[email&#160;protected]</span></span>
+          </a>
+          <a href="https://linkedin.com/in/vignesh-v-65883417a" target="_blank" class="contact-row">
+            <span class="contact-row-label">LinkedIn</span>
+            <span class="contact-row-value">vignesh-v-65883417a ↗</span>
+          </a>
+          <a href="https://github.com/Vicky1807" target="_blank" class="contact-row">
+            <span class="contact-row-label">GitHub</span>
+            <span class="contact-row-value">Vicky1807 ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
 
-    <footer>
-      <p>© 2026 Vignesh</p>
-    </footer>
-
-    <script>
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("show");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        {
-          threshold: 0.15,
-          rootMargin: "0px 0px -40px 0px",
-        }
-      );
-
-      document.querySelectorAll(".reveal").forEach((element, index) => {
-        element.style.transitionDelay = `${Math.min(index * 45, 240)}ms`;
-        observer.observe(element);
-      });
-    </script>
-  </body>
-</html>
+    <footer
