@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpamShield — ML Spam Classifier</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --accent: #ff3c5f;
+    --accent2: #ff8c42;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --green: #00d68f;
+    --red: #ff3c5f;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,60,95,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,60,95,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,60,95,0.08) 0%, transparent 70%);
+    top: -200px;
+    right: -200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* header */
+  header {
+    margin-bottom: 56px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    border: 1px solid rgba(255,60,95,0.3);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  h1 span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 500px;
+  }
+
+  .subtitle a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,60,95,0.3);
+  }
+
+  /* classifier card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 32px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease 0.15s both;
+  }
+
+  .card-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 16px;
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus { border-color: rgba(255,60,95,0.4); }
+  textarea::placeholder { color: var(--muted); }
+
+  .examples {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .example-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .example-btn:hover {
+    color: var(--text);
+    border-color: var(--muted);
+  }
+
+  .btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn:hover { background: #ff2248; transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .btn .spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto;
+  }
+
+  .btn.loading .btn-text { display: none; }
+  .btn.loading .spinner { display: block; }
+
+  /* result */
+  .result {
+    display: none;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .result.show { display: block; }
+
+  .result-inner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-inner::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+  }
+
+  .result-inner.spam::before { background: var(--red); }
+  .result-inner.ham::before { background: var(--green); }
+
+  .verdict {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .verdict-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .verdict-label {
+    font-size: 11px;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+
+  .verdict-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .spam .verdict-text { color: var(--red); }
+  .ham .verdict-text { color: var(--green); }
+
+  .confidence-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .confidence-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .confidence-value {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .bar-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 0%;
+  }
+
+  .spam .bar-fill { background: var(--red); }
+  .ham .bar-fill { background: var(--green); }
+
+  /* stack */
+  .stack {
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .stack-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+  }
+
+  .tag span { color: var(--accent); margin-right: 4px; }
+
+  /* error */
+  .error-msg {
+    display: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--red);
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(255,60,95,0.08);
+    border: 1px solid rgba(255,60,95,0.2);
+    border-radius: 2px;
+  }
+
+  .error-msg.show { display: block; }
+
+  /* footer */
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    animation: fadeUp 0.6s ease 0.45s both;
+  }
+
+  footer a {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  footer a:hover { color: var(--accent); }
+
+  /* animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="container">
+
+  <header>
+    <div class="badge">ML Project — Live API</div>
+    <h1>Spam<span>Shield</span></h1>
+    <p class="subtitle">
+      NLP-powered spam detection API built with FastAPI + scikit-learn.<br>
+      Trained on the SMS Spam Collection dataset · Deployed on
+      <a href="https://huggingface.co/spaces/Vicky1807/spam-classifi" target="_blank">Hugging Face Spaces</a>
+    </p>
+  </header>
+
+  <div class="card">
+    <div class="card-label">// Enter a message to classify</div>
+    <textarea id="inputText" placeholder="Type or paste any message here..."></textarea>
+
+    <div class="examples">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted);align-self:center;">try:</span>
+      <button class="example-btn" onclick="setExample('spam1')">🚨 Spam example</button>
+      <button class="example-btn" onclick="setExample('ham1')">✅ Normal message</button>
+      <button class="example-btn" onclick="setExample('spam2')">🎁 Prize scam</button>
+    </div>
+
+    <button class="btn" id="classifyBtn" onclick="classify()">
+      <span class="btn-text">Classify Message</span>
+      <div class="spinner"></div>
+    </button>
+
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <div class="result" id="result">
+    <div class="result-inner" id="resultInner">
+      <div class="verdict">
+        <div class="verdict-icon" id="verdictIcon"></div>
+        <div>
+          <div class="verdict-label">Classification</div>
+          <div class="verdict-text" id="verdictText"></div>
+        </div>
+      </div>
+      <div class="confidence-row">
+        <span class="confidence-label">Confidence</span>
+        <span class="confidence-value" id="confidenceValue"></span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="barFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="stack">
+    <div class="stack-title">// Tech stack</div>
+    <div class="tags">
+      <div class="tag"><span>#</span>FastAPI</div>
+      <div class="tag"><span>#</span>scikit-learn</div>
+      <div class="tag"><span>#</span>TF-IDF</div>
+      <div class="tag"><span>#</span>LogisticRegression</div>
+      <div class="tag"><span>#</span>MLflow</div>
+      <div class="tag"><span>#</span>Docker</div>
+      <div class="tag"><span>#</span>HuggingFace Spaces</div>
+      <div class="tag"><span>#</span>Python 3.11</div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="https://huggingface.co/spaces/Vicky1807/spam-classifi" target="_blank">→ Live API on HF Spaces</a>
+    <a href="https://huggingface.co/spaces/Vicky1807/spam-classifi/api" target="_blank">→ API Docs</a>
+  </footer>
+
+</div>
+
+<script>
+  const API = "https://vicky1807-spam-classifi.hf.space/predict/";
+
+  const examples = {
+    spam1: "URGENT: Your account has been compromised. Click here immediately to verify your details and avoid suspension.",
+    ham1:  "Hey, are we still on for lunch tomorrow? Let me know what time works for you.",
+    spam2: "Congratulations! You have been selected as our lucky winner. Call now to claim your free iPhone and $5000 cash prize!"
+  };
+
+  function setExample(key) {
+    document.getElementById('inputText').value = examples[key];
+    document.getElementById('result').classList.remove('show');
+    document.getElementById('errorMsg').classList.remove('show');
+  }
+
+  async function classify() {
+    const text = document.getElementById('inputText').value.trim();
+    const btn = document.getElementById('classifyBtn');
+    const errorEl = document.getElementById('errorMsg');
+    const resultEl = document.getElementById('result');
+
+    if (!text) {
+      errorEl.textContent = "Please enter a message to classify.";
+      errorEl.classList.add('show');
+      return;
+    }
+
+    errorEl.classList.remove('show');
+    resultEl.classList.remove('show');
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      const data = await res.json();
+
+      const isSpam = data.is_spam;
+      const confidence = Math.round(data.confidence * 100);
+
+      const inner = document.getElementById('resultInner');
+      inner.className = 'result-inner ' + (isSpam ? 'spam' : 'ham');
+
+      document.getElementById('verdictIcon').textContent = isSpam ? '🚨' : '✅';
+      document.getElementById('verdictText').textContent = isSpam ? 'SPAM' : 'NOT SPAM';
+      document.getElementById('confidenceValue').textContent = confidence + '%';
+
+      resultEl.classList.add('show');
+
+      // animate bar
+      const bar = document.getElementById('barFill');
+      bar.style.width = '0%';
+      setTimeout(() => { bar.style.width = confidence + '%'; }, 50);
+
+    } catch (err) {
+      errorEl.textContent = "Could not reach the API. Make sure the HF Space is running: " + err.message;
+      errorEl.classList.add('show');
+    } finally {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+
+  // enter key submits
+  document.getElementById('inputText').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.ctrlKey) classify();
+  });
+</script>
+</body>
+</html>
