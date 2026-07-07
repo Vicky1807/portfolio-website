@@ -346,6 +346,61 @@
 
       .project-link-btn:hover { opacity: 0.65; }
 
+      /* ── DASHBOARDS ── */
+      .dash-item { margin-bottom: 3.5rem; }
+      .dash-item:last-child { margin-bottom: 0; }
+
+      .dash-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .dash-head h3 {
+        font-size: 1.02rem;
+        font-weight: 500;
+        color: var(--white);
+      }
+
+      .dash-frame {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 0.6rem;
+        overflow: hidden;
+      }
+
+      .dash-frame iframe { display: block; border: none; }
+
+      .dash-note {
+        font-size: 0.82rem;
+        color: var(--text);
+        line-height: 1.85;
+        margin-bottom: 1.2rem;
+        max-width: 640px;
+      }
+
+      .dash-photo {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 0.6rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .dash-photo img {
+        width: 100%;
+        display: block;
+      }
+
+      .dash-photo-caption {
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text);
+        padding: 0.8rem 0.3rem 0.2rem;
+      }
+
       /* ── SKILLS ── */
       .skills-layout {
         display: grid;
@@ -484,6 +539,7 @@
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#dashboards">Dashboards</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -492,7 +548,7 @@
     <!-- HERO -->
     <section id="home" class="hero">
       <div class="hero-left">
-        <div class="hero-eyebrow">ETRM Analyst &amp; Aspiring Data Scientist</div>
+        <div class="hero-eyebrow">Data Analyst &amp; Aspiring Data Scientist</div>
         <h1>Vignesh<br><em>Venkatesh</em></h1>
         <p class="hero-desc">
           Azure Certified Data Scientist with experience building production ML solutions
@@ -544,7 +600,7 @@
           </div>
           <div class="meta-item">
             <div class="meta-label">Interests</div>
-            <div class="meta-value">ML, MLOps, Data Science, RAG</div>
+            <div class="meta-value">AI / ML, MLOps, Data Science, RAG</div>
           </div>
         </div>
       </div>
@@ -559,7 +615,6 @@
         <h2>Projects</h2>
       </div>
 
-
       <div class="project-item">
         <div class="project-index">01 /</div>
         <div class="project-body">
@@ -573,7 +628,6 @@ Click the link below to interactively test the API — enter any message and get
         <a href="https://lemon-ground-0a6d71c1e.7.azurestaticapps.net/"
            target="_blank" class="project-link-btn">Website Link ↗</a>
       </div>
-    </div>
 
       <div class="project-item">
         <div class="project-index">02 /</div>
@@ -589,6 +643,75 @@ Click the link below to interactively test the API — enter any message and get
         <a href="https://github.com/Vicky1807/github-actions-for-model-training"
            target="_blank" class="project-link-btn">Github Repo ↗</a>
       </div>
+
+      <div class="project-item">
+        <div class="project-index">03 /</div>
+        <div class="project-body">
+          <h3>NYC Taxi — Exploratory Data Analysis</h3>
+          <p>End-to-end EDA on 2023 NYC Yellow Taxi trip records: stratified sampling of the raw
+          TLC parquet files, data cleaning, and univariate/bivariate/geospatial analysis (GeoPandas
+          choropleth of pickup zones) to surface demand, pricing, and tipping patterns.</p>
+          <div class="project-tags">
+            <span>Python</span><span>Pandas</span><span>GeoPandas</span><span>EDA</span>
+          </div>
+        </div>
+        <a href="https://www.kaggle.com/vicky1807"
+           target="_blank" class="project-link-btn">View on Kaggle ↗</a>
+      </div>
+
+      <div class="project-item">
+        <div class="project-index">04 /</div>
+        <div class="project-body">
+          <h3>Titanic — Survival EDA & Hypothesis Testing</h3>
+          <p>Statistical EDA on the Titanic dataset covering univariate distributions, Bivariate Distributions to
+          validate findings before drawing conclusions.</p>
+          <div class="project-tags">
+            <span>Python</span><span>Statistics</span><span>Hypothesis Testing</span>
+          </div>
+        </div>
+        <a href="https://www.kaggle.com/code/vickyy1807/eda-on-titanic-passenger-data"
+           target="_blank" class="project-link-btn">View on Kaggle ↗</a>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- DASHBOARDS -->
+    <div class="section" id="dashboards">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2>Dashboards</h2>
+      </div>
+
+      <p style="font-size:0.86rem; color:var(--text); max-width:640px; margin-bottom:3rem; line-height:1.85;">
+        Live, interactive reports — filter and explore them directly below, no download required.
+      </p>
+
+      <div class="dash-item">
+        <div class="dash-head">
+          <h3>Tableau Public — 2026 Sales: Target vs. Actual</h3>
+          <a href="https://public.tableau.com/app/profile/vignesh.v1012" target="_blank" class="project-link-btn">Open in Tableau ↗</a>
+        </div>
+        <p class="dash-note">
+          Built as part of my M.Tech project work experience at IIIT Bangalore.
+        </p>
+        <div class="dash-frame">
+          <div class='tableauPlaceholder' id='viz1783155967207' style='position: relative'><noscript><a href='#'><img alt='2026 | Sales vs Targets ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sa&#47;SalestargetvsAchivedKPIViz&#47;CYSales&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='SalestargetvsAchivedKPIViz&#47;CYSales' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sa&#47;SalestargetvsAchivedKPIViz&#47;CYSales&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1783155967207');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+        </div>
+      </div>
+
+      <div class="dash-item">
+        <div class="dash-head">
+          <h3>Power BI — Sales Dashboard</h3>
+        </div>
+        <p class="dash-note">
+          I have hands-on experience building Power BI reports at work.
+        </p>
+        <div class="dash-photo">
+          <img src="picture1.png" alt="Power BI Sales Dashboard" />
+          <div class="dash-photo-caption">Sales Dashboard — Power BI</div>
+        </div>
+      </div>
     </div>
 
     <div class="divider"></div>
@@ -596,7 +719,7 @@ Click the link below to interactively test the API — enter any message and get
     <!-- SKILLS -->
     <div class="section" id="skills">
       <div class="section-header">
-        <span class="section-num">03</span>
+        <span class="section-num">04</span>
         <h2>Skills</h2>
       </div>
       <div class="skills-layout">
@@ -605,7 +728,7 @@ Click the link below to interactively test the API — enter any message and get
           <ul>
             <li>Python</li>
             <li>SQL</li>
-            <li>Apache Spark</li>
+            <li>Apache Spark , PySpark</li>
             <li>Apache Hive</li>
           </ul>
         </div>
@@ -615,14 +738,16 @@ Click the link below to interactively test the API — enter any message and get
             <li>Machine Learning</li>
             <li>Azure ML</li>
             <li>Anomaly Detection</li>
-            <li>RAG (Beginner)</li>
+            <li>MLFlow</li>
           </ul>
         </div>
         <div class="skill-group">
           <div class="skill-group-title">Tools & Practices</div>
           <ul>
             <li>FastAPI</li>
+            <li>Docker</li>
             <li>Power BI</li>
+            <li>Tableau</li>
             <li>Git & GitHub</li>
             <li>CI/CD · MLOps</li>
           </ul>
@@ -635,7 +760,7 @@ Click the link below to interactively test the API — enter any message and get
     <!-- CONTACT -->
     <div class="section" id="contact">
       <div class="section-header">
-        <span class="section-num">04</span>
+        <span class="section-num">05</span>
         <h2>Contact</h2>
       </div>
       <div class="contact-grid">
@@ -644,7 +769,7 @@ Click the link below to interactively test the API — enter any message and get
           <p>Open to data science roles, ML collaborations, and interesting problems in analytics and AI.</p>
         </div>
         <div>
-          <a href="/cdn-cgi/l/email-protection#5c2a2a646c696c6b1c3b313d3530723f3331" class="contact-row">
+          <a href="mailto:vv80507@gmail.com" class="contact-row">
             <span class="contact-row-label">Email</span>
             <span class="contact-row-value">vv80507@gmail.com</span>
           </a>
@@ -660,4 +785,10 @@ Click the link below to interactively test the API — enter any message and get
       </div>
     </div>
 
-    <footer
+    <footer>
+      <span>© 2026 Vignesh Venkatesh</span>
+      <span>Built with intent.</span>
+    </footer>
+
+  </body>
+</html>
