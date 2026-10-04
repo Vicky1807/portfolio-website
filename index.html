@@ -469,6 +469,88 @@
         flex-shrink: 0;
       }
 
+      /* ── CERTS ── */
+      .certs-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+      .cert-tile {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 2rem;
+        text-decoration: none;
+        display: block;
+        transition:
+          border-color 0.25s,
+          transform 0.25s;
+      }
+      a.cert-tile:hover {
+        border-color: var(--accent);
+        transform: translateY(-3px);
+      }
+      .cert-tile-label {
+        font-size: 0.66rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.8rem;
+      }
+      .cert-tile h3 {
+        font-size: 1.02rem;
+        font-weight: 500;
+        color: var(--white);
+        margin-bottom: 0.5rem;
+      }
+      .cert-tile p {
+        font-size: 0.84rem;
+        color: var(--text);
+        line-height: 1.8;
+      }
+      .cert-tile-link {
+        display: inline-block;
+        margin-top: 1rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .cert-tile.wide {
+        grid-column: 1 / -1;
+      }
+      .quote {
+        font-family: var(--serif);
+        font-style: italic;
+        font-size: 1.25rem;
+        line-height: 1.6;
+        color: var(--white);
+        border-left: 2px solid var(--accent);
+        padding-left: 1.4rem;
+        margin: 0.5rem 0 1rem;
+      }
+      .quote-author {
+        font-size: 0.78rem;
+        color: var(--text);
+        letter-spacing: 0.06em;
+        margin-bottom: 1.8rem;
+      }
+      .quote-author strong {
+        color: var(--text-hi);
+        font-weight: 500;
+      }
+      .appreciation-photo img {
+        width: 100%;
+        display: block;
+        border: 1px solid var(--border);
+      }
+      .appreciation-caption {
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text);
+        padding-top: 0.8rem;
+      }
+
       /* ── CONTACT ── */
       .contact-grid {
         display: grid;
@@ -584,6 +666,9 @@
         .skill-group:last-child {
           border-bottom: none;
         }
+        .certs-grid {
+          grid-template-columns: 1fr;
+        }
         .project-item {
           grid-template-columns: 50px 1fr;
         }
@@ -608,6 +693,7 @@
         <li><a href="#projects">Projects</a></li>
         <li><a href="#dashboards">Dashboards</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="#certs">Certs</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -937,10 +1023,68 @@
 
     <div class="divider"></div>
 
+    <!-- CERTS -->
+    <div class="section" id="certs">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2>Certs</h2>
+      </div>
+
+      <div class="certs-grid">
+        <a
+          class="cert-tile"
+          href="https://learn.microsoft.com/en-us/users/vigneshv-6725/credentials/df04bb06d9c287fc"
+          target="_blank"
+        >
+          <div class="cert-tile-label">Certification</div>
+          <h3>Microsoft Azure — Data Scientist Associate</h3>
+          <p>Designing and running ML solutions on Azure Machine Learning.</p>
+          <span class="cert-tile-link">View credential ↗</span>
+        </a>
+
+        <a
+          class="cert-tile"
+          href="https://learn.microsoft.com/api/credentials/share/en-us/VigneshV-6725/81555DF453EF45F7?sharingId=F4DC5ACF941AD7EF"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="cert-tile-label">Certification</div>
+          <h3>Microsoft GH-300 — GitHub Copilot</h3>
+          <p>GitHub Copilot certification credential.</p>
+          <span class="cert-tile-link">View credential ↗</span>
+        </a>
+
+        <!-- Client appreciation tile -->
+        <div class="cert-tile wide">
+          <div class="cert-tile-label">Client Appreciation</div>
+          <div class="quote">
+            “He has managed to fix a data access problem that has been lingering
+            for 4 months… He has solved several major problems for me with a
+            high degree of ambiguity and creativity.”
+          </div>
+          <div class="quote-author">
+            <strong>Jeff</strong> — Enterprise Power Risk Analyst, Shell Energy
+            North America
+          </div>
+          <div class="appreciation-photo">
+            <img
+              src="appreciation.png"
+              alt="Client appreciation email from Shell Energy North America"
+            />
+            <div class="appreciation-caption">
+              Feedback email forwarded to my manager — Feb 2024
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
     <!-- CONTACT -->
     <div class="section" id="contact">
       <div class="section-header">
-        <span class="section-num">05</span>
+        <span class="section-num">06</span>
         <h2>Contact</h2>
       </div>
 
